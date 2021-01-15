@@ -1,7 +1,8 @@
 package com.krews.krews;
 
+import java.io.Serializable;
 
-public class ModelCharity {
+public class ModelCharity implements Serializable {
 
     public String ein ,charityName ,url ,city ,state ,zipCode;
 

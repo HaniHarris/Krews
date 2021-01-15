@@ -13,4 +13,5 @@
     <string name="cancel">Cancel</string>
     <string name="save1">Image Saved</string>
     <string name="save2">Click OK to close this popup</string>
+    <string name="selected">Selected</string>
 </resources>

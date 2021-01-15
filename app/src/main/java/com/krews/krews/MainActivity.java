@@ -56,6 +56,20 @@ public class MainActivity extends AppCompatActivity {
             }
             public void onSwipeLeft() {
 
+                if(!arraySelectedCharity.isEmpty())
+                {
+                    try {
+                        Intent i=new Intent(MainActivity.this,SelectedActivity.class);
+                        i.putExtra("selectedCharity", arraySelectedCharity);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.slide_in1,R.anim.slide_out1);
+                    }
+                    catch (Exception E)
+                    {
+                    }
+
+                }
+
             }
 
         });
@@ -205,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
                                     arraySelectedCharity.add(arrayCharity.get(0));
                                 }
 
-                                adapterCharity.notifyDataSetChanged();
+                                 adapterCharity.notifyDataSetChanged();
                             }
                             catch (Exception ignored)
                             {
