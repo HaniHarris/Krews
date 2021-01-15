@@ -3,6 +3,7 @@
 
     <dimen name="dp05">0.75dp</dimen>
     <dimen name="dp1">1.5dp</dimen>
+    <dimen name="dp2">3dp</dimen>
     <dimen name="dp4">6dp</dimen>
     <dimen name="dp8">12dp</dimen>
     <dimen name="dp12">18dp</dimen>

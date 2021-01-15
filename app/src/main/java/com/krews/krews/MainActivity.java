@@ -1,5 +1,6 @@
 package com.krews.krews;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
     Call<DataCharity> callSearch;
 
+    AdapterCharity adapterCharity;
+    final ArrayList<ModelCharity> arraySelectedCharity=new ArrayList<>();
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
         RecyclerView.LayoutManager lmProducts=new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(lmProducts);
+
+        layMain.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+            public void onSwipeRight() {
+            }
+            public void onSwipeLeft() {
+
+            }
+
+        });
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -123,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 ArrayList<ModelCharity> arrayCharity=new ArrayList<>();
+                arraySelectedCharity.clear();
                 if(apiResponse.equalsIgnoreCase("200"))
                 {
                     if (dataCharity.data.size() > 0)
@@ -146,7 +161,54 @@ public class MainActivity extends AppCompatActivity {
                 {
                     recyclerView.setVisibility(View.VISIBLE);
 
-                    AdapterCharity adapterCharity=new AdapterCharity(arrayCharity,MainActivity.this);
+                    arraySelectedCharity.add(arrayCharity.get(0));
+
+                    adapterCharity=new AdapterCharity(arrayCharity,MainActivity.this,arraySelectedCharity,new AdapterCharity.ClickListener(){
+                        public void onClick(int position)
+                        {
+                            try
+                            {
+                                final String ein=arrayCharity.get(position).getEin();
+
+                                boolean markCharity=true;
+                                if(!arraySelectedCharity.isEmpty())
+                                {
+                                    for(int k=0;k<arraySelectedCharity.size();k++)
+                                    {
+                                        String selectedEin=arraySelectedCharity.get(k).getEin();
+                                        if(selectedEin!=null && selectedEin.equalsIgnoreCase(ein))
+                                        {
+                                            String einSelected = arraySelectedCharity.get(k).getEin();
+                                            if (einSelected != null && einSelected.equalsIgnoreCase(selectedEin))
+                                            {
+                                                markCharity=false;
+                                            }
+
+                                            arraySelectedCharity.remove(k);
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if(markCharity)
+                                {
+                                    arraySelectedCharity.add(arrayCharity.get(position));
+                                }
+
+                                if(arraySelectedCharity.isEmpty())
+                                {
+                                    arraySelectedCharity.add(arrayCharity.get(0));
+                                }
+
+                                adapterCharity.notifyDataSetChanged();
+                            }
+                            catch (Exception ignored)
+                            {
+
+                            }
+                        }
+                    });
                     recyclerView.setAdapter(adapterCharity);
                     adapterCharity.notifyDataSetChanged();
                 }

@@ -18,10 +18,18 @@ public class AdapterCharity extends RecyclerView.Adapter<AdapterCharity.ViewHold
 
     final List<ModelCharity> list;
     final Context context;
+    final List<ModelCharity> listSelected;
+    final ClickListener clickListener;
 
-    public AdapterCharity(List<ModelCharity> list, Context context) {
+    public AdapterCharity(List<ModelCharity> list, Context context, List<ModelCharity> listSelected, ClickListener clickListener) {
         this.list = list;
         this.context = context;
+        this.listSelected = listSelected;
+        this.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onClick(int position);
     }
 
     @NonNull
@@ -37,6 +45,21 @@ public class AdapterCharity extends RecyclerView.Adapter<AdapterCharity.ViewHold
         holder.tvName.setText(list.get(position).getCharityName());
         String textAddress=list.get(position).getCity()+","+list.get(position).getState()+"-"+list.get(position).getZipCode();
         holder.tvAddress.setText(textAddress);
+
+        String ein=list.get(position).getEin();
+        holder.layItem.setBackgroundResource(R.drawable.button_shape2);
+        if(!listSelected.isEmpty() && ein!=null)
+        {
+            for(int k=0;k<listSelected.size();k++)
+            {
+                String selectedEin=listSelected.get(k).getEin();
+                if(selectedEin!=null && selectedEin.equalsIgnoreCase(ein))
+                {
+                    holder.layItem.setBackgroundResource(R.drawable.button_shape3);
+                    break;
+                }
+            }
+        }
 
         holder.tvUrl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,14 +77,29 @@ public class AdapterCharity extends RecyclerView.Adapter<AdapterCharity.ViewHold
             }
         });
 
-        holder.layItem.setOnClickListener(new View.OnClickListener() {
+        holder.layItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View view) {
                 try
                 {
                     Intent intent = new Intent(context,DetailsActivity.class);
                     intent.putExtra("ein",list.get(position).getEin());
                     context.startActivity(intent);
+                }
+                catch (Exception ignored)
+                {
+
+                }
+                return false;
+            }
+        });
+
+        holder.layItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try
+                {
+                    clickListener.onClick(position);
                 }
                 catch (Exception ignored)
                 {
@@ -91,6 +129,8 @@ public class AdapterCharity extends RecyclerView.Adapter<AdapterCharity.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            this.setIsRecyclable(false);
             layItem=itemView.findViewById(R.id.layItem);
             tvName=itemView.findViewById(R.id.tvName);
             tvAddress=itemView.findViewById(R.id.tvAddress);
