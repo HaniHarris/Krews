@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Krews</string>
+    <string name="search">Search Here</string>
+    <string name="base_url">http://data.orghunter.com/v1/</string>
+    <string name="user_key">eaaea037d039ce547fff7d57999613d1</string>
+    <string name="click_here_for_more_details">Click here for more details</string>
+    <string name="classification">Classification</string>
+    <string name="affiliation">Affiliation</string>
+</resources>
