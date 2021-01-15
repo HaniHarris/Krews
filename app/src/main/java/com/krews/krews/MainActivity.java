@@ -1,6 +1,7 @@
 package com.krews.krews;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
         layMain.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             public void onSwipeRight() {
+
+                startActivity(new Intent(MainActivity.this,CameraActivity.class));
+                overridePendingTransition(R.anim.slide_in2,R.anim.slide_out2);
             }
             public void onSwipeLeft() {
 

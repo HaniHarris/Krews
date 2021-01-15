@@ -6,4 +6,11 @@
     <string name="click_here_for_more_details">Click here for more details</string>
     <string name="classification">Classification</string>
     <string name="affiliation">Affiliation</string>
+    <string name="save">Save</string>
+    <string name="permisiondenied1">Permissions Denied</string>
+    <string name="permisiondenied2">Please allow access to the permission.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="save1">Image Saved</string>
+    <string name="save2">Click OK to close this popup</string>
 </resources>
